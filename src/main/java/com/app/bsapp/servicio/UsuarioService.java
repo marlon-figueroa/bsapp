@@ -10,6 +10,7 @@ package com.app.bsapp.servicio;
  */
 public interface UsuarioService {
 
-    public boolean checkHash(String input);
+    public boolean checkHash(String usr, String pwd);
+    public String getPasswordByUsr(String usr);
 
 }

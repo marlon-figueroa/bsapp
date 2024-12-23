@@ -5,8 +5,12 @@
 package com.app.bsapp.servicio.impl;
 
 import com.app.bsapp.servicio.UsuarioService;
+import com.app.bsapp.util.ConnectDB;
 import com.app.bsapp.util.SHA256Hashing;
 import java.security.NoSuchAlgorithmException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,17 +26,32 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public boolean checkHash(String input) {
+    public boolean checkHash(String usr, String pwd) {
         boolean iguales = false;
         try {
-            String output = ""; // TODO Obtener de base de datos
-            String hash = SHA256Hashing.HashWithBouncyCastle(input);
-            System.out.println("com.app.bsapp.servicio.impl.UsuarioServiceImpl.checkHash()::" + hash);
+            String output = this.getPasswordByUsr(usr);
+            String hash = SHA256Hashing.HashWithBouncyCastle(pwd);
+            Logger.getLogger(UsuarioServiceImpl.class.getName()).log(Level.INFO, "checkHash()::{0}", hash);
             iguales = Objects.equals(hash, output);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(UsuarioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return iguales;
+    }
+
+    @Override
+    public String getPasswordByUsr(String usr) {
+        String pwd = "";
+        try (PreparedStatement ps = ConnectDB.getConnection().prepareStatement("SELECT password FROM usuario WHERE username=?")) {
+            ps.setString(1, usr);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                pwd = rs.getString("password");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return pwd;
     }
 
 }

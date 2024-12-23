@@ -1,7 +1,6 @@
 package com.app.bsapp.util;
 
 
-import com.app.bsapp.util.SHA512Hasher;
 import java.security.SecureRandom;
 import org.junit.Assert;
 import org.junit.Before;

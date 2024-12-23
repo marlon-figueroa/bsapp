@@ -127,7 +127,7 @@ public class LoginView extends javax.swing.JFrame {
         String usr = txtUsuario.getText();
         String pwd = String.valueOf(txtPassword.getPassword());
         UsuarioService usuarioService = new UsuarioServiceImpl();
-        if(usuarioService.checkHash(pwd)) {
+        if (usuarioService.checkHash(usr, pwd)) {
             HomeView.main(new String[]{});
             this.pack();
             this.dispose();
@@ -154,7 +154,7 @@ public class LoginView extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(LoginView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */
