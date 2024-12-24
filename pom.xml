@@ -85,7 +85,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.app.bsapp.Bsapp</mainClass>
+                            <mainClass>${exec.mainClass}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
