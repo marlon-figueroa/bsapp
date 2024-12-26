@@ -11,6 +11,6 @@ package com.app.core;
 public class Core {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        System.out.println("com.app.core.Core.main() ...[OK]");
     }
 }

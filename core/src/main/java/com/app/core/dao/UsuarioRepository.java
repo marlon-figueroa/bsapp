@@ -19,9 +19,9 @@ import javax.persistence.criteria.Root;
  *
  * @author MARLON FIGUEROA
  */
-public class UsuarioJpaController implements Serializable {
+public class UsuarioRepository implements Serializable {
 
-    public UsuarioJpaController(EntityManagerFactory emf) {
+    public UsuarioRepository(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -116,6 +116,20 @@ public class UsuarioJpaController implements Serializable {
         EntityManager em = getEntityManager();
         try {
             return em.find(Usuario.class, id);
+        } finally {
+            em.close();
+        }
+    }
+    
+    public Usuario findByUsername(String username) {
+        EntityManager em = getEntityManager();
+        try {
+            Usuario user = null;
+            List list = em.createNamedQuery("Usuario.findByUsername").setParameter("username", username).getResultList();
+            if(!list.isEmpty()) {
+                user = (Usuario) list.getFirst();
+            }
+            return user;
         } finally {
             em.close();
         }

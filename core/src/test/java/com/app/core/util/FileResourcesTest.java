@@ -11,7 +11,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +35,8 @@ public class FileResourcesTest {
         //File file = new File(resource.getFile());
         File file = new File(resource.toURI());
         List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
-        lines.forEach(System.out::println);
+        //lines.forEach(System.out::println);
+        Assertions.assertEquals(8, lines.size());
     }
 
 }
