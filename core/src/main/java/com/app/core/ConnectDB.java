@@ -11,17 +11,18 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.List;
 
 /**
  *
  * @author MARLON FIGUEROA
  */
 public class ConnectDB {
-   private static final String PROPERTIES_FILE = "application.properties";
+
+    private static final String PROPERTIES_FILE = "application.properties";
 
     private static final String URL;
     private static final String USER;
@@ -42,12 +43,11 @@ public class ConnectDB {
     }
 
     @SuppressWarnings("unused")
-	private static Properties loadProperties() {
+    private static Properties loadProperties() {
         Properties properties = new Properties();
         FileResourcesUtils resourcesUtils = new FileResourcesUtils();
         try (FileInputStream inputStream = new FileInputStream(resourcesUtils.getFileFromResource(PROPERTIES_FILE))) {
             if (inputStream != null) {
-                resourcesUtils.printFile(resourcesUtils.getFileFromResource(PROPERTIES_FILE));
                 properties.load(inputStream);
             } else {
                 throw new IOException("application.properties not found");

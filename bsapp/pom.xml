@@ -40,7 +40,16 @@
             <version>1.76</version>
         </dependency>
     </dependencies>
-    <build>        
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.png</include>
+                </includes>
+            </resource>
+        </resources>        
         <plugins>
             <plugin>
                 <!-- Build an executable JAR -->

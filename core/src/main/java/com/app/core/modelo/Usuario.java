@@ -17,15 +17,11 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import lombok.Builder;
-import lombok.Data;
 
 /**
  *
  * @author MARLON FIGUEROA
  */
-@Data
-@Builder
 @Entity
 @Table(name = "usuario")
 @NamedQueries({
@@ -44,25 +40,108 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    
     @Basic(optional = false)
     @Column(name = "username")
     private String username;
-    
     @Basic(optional = false)
     @Column(name = "password")
     private String password;
-    
     @Basic(optional = false)
     @Column(name = "intentos")
     private int intentos;
-    
     @Column(name = "fechaBloqueo")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaBloqueo;
     @Basic(optional = false)
-    
     @Column(name = "bloqueado")
     private boolean bloqueado;
 
+    public Usuario() {
+    }
+
+    public Usuario(Long id) {
+        this.id = id;
+    }
+
+    public Usuario(Long id, String username, String password, int intentos, boolean bloqueado) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.intentos = intentos;
+        this.bloqueado = bloqueado;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getIntentos() {
+        return intentos;
+    }
+
+    public void setIntentos(int intentos) {
+        this.intentos = intentos;
+    }
+
+    public Date getFechaBloqueo() {
+        return fechaBloqueo;
+    }
+
+    public void setFechaBloqueo(Date fechaBloqueo) {
+        this.fechaBloqueo = fechaBloqueo;
+    }
+
+    public boolean getBloqueado() {
+        return bloqueado;
+    }
+
+    public void setBloqueado(boolean bloqueado) {
+        this.bloqueado = bloqueado;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Usuario)) {
+            return false;
+        }
+        Usuario other = (Usuario) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "com.app.core.modelo.Usuario[ id=" + id + " ]";
+    }
+    
 }
