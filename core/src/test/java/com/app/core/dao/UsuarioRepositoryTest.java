@@ -5,9 +5,6 @@
 package com.app.core.dao;
 
 import com.app.core.modelo.Usuario;
-import com.core.util.Constantes;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -39,8 +36,7 @@ public class UsuarioRepositoryTest {
 
     @Test
     public void findByUsernameTest() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(Constantes.PERSISTENCE_UNIT);
-        UsuarioRepository repository = new UsuarioRepository(emf);
+        UsuarioRepository repository = new UsuarioRepository();
         Usuario usr = repository.findByUsername("admin");
         Assertions.assertEquals("admin", usr.getUsername());
     }

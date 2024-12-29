@@ -6,10 +6,8 @@ package com.app.core.dao;
 
 import com.app.core.dao.exceptions.NonexistentEntityException;
 import com.app.core.modelo.Usuario;
-import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
@@ -19,15 +17,15 @@ import javax.persistence.criteria.Root;
  *
  * @author MARLON FIGUEROA
  */
-public class UsuarioRepository implements Serializable {
+public class UsuarioRepository extends AbstractRepository<Usuario> {
 
-    public UsuarioRepository(EntityManagerFactory emf) {
-        this.emf = emf;
+    public UsuarioRepository() {
+        super();
     }
-    private EntityManagerFactory emf = null;
 
+    @Override
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return this.getEmf().createEntityManager();
     }
 
     public void create(Usuario usuario) {
@@ -67,7 +65,7 @@ public class UsuarioRepository implements Serializable {
         }
     }
 
-    public void destroy(int id) throws NonexistentEntityException {
+    public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -120,13 +118,15 @@ public class UsuarioRepository implements Serializable {
             em.close();
         }
     }
-    
+
     public Usuario findByUsername(String username) {
         EntityManager em = getEntityManager();
         try {
             Usuario user = null;
-            List list = em.createNamedQuery("Usuario.findByUsername").setParameter("username", username).getResultList();
-            if(!list.isEmpty()) {
+            List list = em.createNamedQuery("Usuario.findByUsername")
+                    .setParameter("username", username)
+                    .getResultList();
+            if (!list.isEmpty()) {
                 user = (Usuario) list.getFirst();
             }
             return user;

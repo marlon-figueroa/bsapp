@@ -6,11 +6,8 @@ package com.app.bsapp.servicio.impl;
 
 import com.app.bsapp.servicio.UsuarioService;
 import com.app.bsapp.util.SHA256Hashing;
-import com.app.core.ConnectDB;
+import com.app.core.dao.UsuarioRepository;
 import java.security.NoSuchAlgorithmException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,15 +18,18 @@ import java.util.logging.Logger;
  */
 public class UsuarioServiceImpl implements UsuarioService {
 
+    private UsuarioRepository repository = null;
+
     public UsuarioServiceImpl() {
         super();
+        this.repository = new UsuarioRepository();
     }
 
     @Override
     public boolean checkHash(String usr, String pwd) {
         boolean iguales = false;
         try {
-            String output = this.getPasswordByUsr(usr);
+            String output = repository.findByUsername(usr).getPassword();
             String hash = SHA256Hashing.HashWithBouncyCastle(pwd);
             Logger.getLogger(UsuarioServiceImpl.class.getName()).log(Level.INFO, "checkHash()::{0}", hash);
             iguales = Objects.equals(hash, output);
@@ -37,21 +37,6 @@ public class UsuarioServiceImpl implements UsuarioService {
             Logger.getLogger(UsuarioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return iguales;
-    }
-
-    @Override
-    public String getPasswordByUsr(String usr) {
-        String pwd = "";
-        try (PreparedStatement ps = ConnectDB.getConnection().prepareStatement("SELECT password FROM usuario WHERE username=?")) {
-            ps.setString(1, usr);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                pwd = rs.getString("password");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UsuarioServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return pwd;
     }
 
 }
